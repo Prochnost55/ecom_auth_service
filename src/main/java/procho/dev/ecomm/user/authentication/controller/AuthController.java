@@ -2,13 +2,15 @@ package procho.dev.ecomm.user.authentication.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import procho.dev.ecomm.user.authentication.dto.*;
+import procho.dev.ecomm.user.authentication.exceptions.UserNotFoundException;
+import procho.dev.ecomm.user.authentication.model.Session;
 import procho.dev.ecomm.user.authentication.model.SessionStatus;
+import procho.dev.ecomm.user.authentication.model.User;
 import procho.dev.ecomm.user.authentication.service.AuthService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
@@ -41,6 +43,18 @@ public class AuthController {
         SessionStatus sessionStatus = authService.validate(request.getToken(), request.getUserId());
 
         return new ResponseEntity<>(sessionStatus, HttpStatus.OK);
+    }
+
+
+    //below APIs are only for learning purposes, should not be present in actual systems
+    @GetMapping("/session")
+    public ResponseEntity<List<Session>> getAllSession(){
+        return authService.getAllSession();
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getAllUsers(){
+        return authService.getAllUsers();
     }
 
 }
