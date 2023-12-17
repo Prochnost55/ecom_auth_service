@@ -27,9 +27,9 @@ public class AuthController {
 //        return null;
     }
 
-    @PostMapping("/logout")
-    public ResponseEntity<Void> logout(@RequestBody LogoutRequestDto request) {
-        return authService.logout(request.getToken(), request.getUserId());
+    @PostMapping("/logout/{userId}")
+    public ResponseEntity<Void> logout(@PathVariable("userId") String userId, @RequestHeader("token") String token) {
+        return authService.logout(token, userId);
     }
 
     @PostMapping("/signup")
@@ -38,9 +38,9 @@ public class AuthController {
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
-    @PostMapping("/validate")
-    public ResponseEntity<SessionStatus> validateToken(ValidateTokenRequestDto request) {
-        SessionStatus sessionStatus = authService.validate(request.getToken(), request.getUserId());
+    @PostMapping("/validate/{userId}")
+    public ResponseEntity<SessionStatus> validateToken(@PathVariable("userId") String userId, @RequestHeader("token") String token) {
+        SessionStatus sessionStatus = authService.validate(token, userId);
 
         return new ResponseEntity<>(sessionStatus, HttpStatus.OK);
     }
